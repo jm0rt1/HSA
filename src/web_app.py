@@ -39,19 +39,38 @@ def update_graph():
 
     hsa_balance = np.zeros(years)
     taxable_cost = np.zeros(years)
+    untaxed_cost = np.zeros(years)
+    total_medical_cost = np.zeros(years)
 
     for year in range(years):
         if year > 0:
-            hsa_balance[year] = hsa_balance[year - 1] * \
-                (1 + hsa_return_rate) + hsa_contribution-hsa_withdrawal_rate
-        taxable_cost[year] = ((annual_medical_expense) /
-                              (1 - tax_rate)) * (year + 1)
+            # Calculate the cash and invested parts of the HSA balance
+            hsa_cash = min(1000, hsa_balance[year - 1])
+            hsa_invested = max(0, hsa_balance[year - 1] - hsa_cash)
+
+            # Calculate the new HSA balance
+            hsa_balance[year] = hsa_cash * \
+                (1 + 0.01) + hsa_invested * \
+                (1 + hsa_return_rate) + hsa_contribution
+
+            # If there's a withdrawal, subtract it from the invested part of the balance and add it to the taxable cost
+            if hsa_withdrawal_rate > 0:
+                hsa_balance[year] -= hsa_withdrawal_rate
+                untaxed_cost[year] = untaxed_cost[year-1] + hsa_withdrawal_rate
+
+            # Calculate the taxable cost for the current year
+            taxable_cost[year] = taxable_cost[year-1] + \
+                ((annual_medical_expense-untaxed_cost[year]) * (1 + tax_rate))
+
+            total_medical_cost[year] = taxable_cost[year] + untaxed_cost[year]
 
     data = [
         go.Scatter(x=list(range(years)), y=hsa_balance,
                    mode='lines', name='HSA Account Balance'),
         go.Scatter(x=list(range(years)), y=taxable_cost,
-                   mode='lines', name='Total Cost from Taxable Income')
+                   mode='lines', name='Total Cost from Taxable Income'),
+        go.Scatter(x=list(range(years)), y=total_medical_cost,
+                   mode='lines', name='Total Cost To You Mixing HSA and Taxable Income')
     ]
 
     graphJSON = json.dumps(data, cls=plotly.utils.PlotlyJSONEncoder)
