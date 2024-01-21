@@ -2,7 +2,10 @@ $(document).ready(function () {
     function updatePlot() {
         var years = $('#years').val();
         var annual_medical_expense = $('#annual_medical_expense').val();
-        // get values of other sliders...
+        var hsa_return_rate = $('#hsa_return_rate').val();
+        var tax_rate = $('#tax_rate').val();
+        var hsa_withdrawal_rate = $('#hsa_withdrawal_rate').val();
+        var hsa_contribution = $('#hsa_contribution').val();
 
         $.ajax({
             url: '/update_graph',
@@ -10,10 +13,10 @@ $(document).ready(function () {
             data: JSON.stringify({
                 'years': years,
                 'annual_medical_expense': annual_medical_expense,
-                'hsa_return_rate': 0.07,
-                'tax_rate': 0.24,
-                'hsa_withdrawal_rate': 0,
-                'hsa_contribution': 3550
+                'hsa_return_rate': hsa_return_rate,
+                'tax_rate': tax_rate,
+                'hsa_withdrawal_rate': hsa_withdrawal_rate,
+                'hsa_contribution': hsa_contribution
             }),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
@@ -33,7 +36,7 @@ $(document).ready(function () {
         });
     }
 
-    $('#years, #annual_medical_expense').on('input', function () {
+    $('#years, #annual_medical_expense, #hsa_return_rate, #tax_rate, #hsa_withdrawal_rate, #hsa_contribution').on('input', function () {
         $('#' + this.id + '-value').text(this.value);
         updatePlot();
     });
