@@ -9,6 +9,14 @@
 
 <body>
     <h1>HSA Analysis</h1>
+    <label for="years">Years:</label>
+    <input type="range" id="years" name="years" min="1" max="30" value="10">
+    <span id="years-value">10</span>
+
+    <label for="annual_medical_expense">Annual Medical Expense:</label>
+    <input type="range" id="annual_medical_expense" name="annual_medical_expense" min="1000" max="10000" value="5000">
+    <span id="annual_medical_expense-value">5000</span>
+
     <div id="graph"></div>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
