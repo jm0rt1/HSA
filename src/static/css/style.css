@@ -1,20 +1,25 @@
 .slider-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .slider-container label {
-    margin-bottom: 10px;
+    margin: 5%;
 }
 
 .slider-container span {
-    margin-top: 10px;
+    margin: 5%;
+}
+
+.slider-container input {
+    margin-right: 10px;
 }
 
 .slider-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    gap: 1%;
 }
