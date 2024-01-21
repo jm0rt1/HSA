@@ -10,7 +10,10 @@ $(document).ready(function () {
             data: JSON.stringify({
                 'years': years,
                 'annual_medical_expense': annual_medical_expense,
-                // other data...
+                'hsa_return_rate': 0.07,
+                'tax_rate': 0.24,
+                'hsa_withdrawal_rate': 0,
+                'hsa_contribution': 3550
             }),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
