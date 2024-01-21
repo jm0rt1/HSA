@@ -23,3 +23,8 @@
     grid-template-columns: 1fr 1fr;
     gap: 1%;
 }
+
+#graph {
+    height: 600px;
+    /* Adjust as needed */
+}
